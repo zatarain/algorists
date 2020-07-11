@@ -57,86 +57,61 @@ namespace algorists::ds::trees {
 		// uncle is black -> check for zigzag
 		if(grant->left == parent && x == parent->right) {
 			std::clog << "zigzag left to right: parent is left-child and x is right-child." << std::endl;
-			rotate_left(x);
-			bfs(std::clog);
-			//fix(parent);
+			rotate<LEFT>(parent);
 			std::swap(x, parent);
 		} else if(grant->right == parent && x == parent->left) {
 			std::clog << "zigzag right to left: parent is right-child and x is left-child." << std::endl;
-			rotate_right(x);
-			bfs(std::clog);
-			//fix(parent);
+			rotate<RIGHT>(parent);
 			std::swap(x, parent);
 		}
 
 		if(x == parent->right && grant->right == parent) {
 			std::clog << "straight line right: parent is right-child and x is right-child." << std::endl;
-			rotate_left(parent);
-			//rotate(parent, direction_t::LEFT);
+			rotate<LEFT>(parent);
 		} else if(x == parent->left && grant->left == parent) {
 			std::clog << "straight line left: parent is left-child and x is left-child." << std::endl;
-			rotate_right(parent);
-			//rotate(parent, direction_t::RIGHT);
+			rotate<RIGHT>(parent);
 		}
 
-		if(grant != node::end) grant->colour = colour_t::RED;
+		if(grant != node::end) {
+			grant->colour = colour_t::RED;
+		}
 		parent->colour = colour_t::BLACK;
 	}
-/**
+
 	template<typename Type>
-	void redblack<Type>::rotate(node *x, direction_t direction) {
-		node *parent = x->parent;
-		node *grant = parent->parent;
-		node *child = direction == direction_t::LEFT ? x->left : x->right;
-		//node *left = x->left;
-		child(x, direction) = parent;
-		x->parent = grant;
-		if(grant != node::end){
-			if(grant->left == parent) grant->left = x; else grant->right = x;
-		} else {
-			root = x;
-		}
-		parent->parent = x;
-		brother(x) = child;
-		if(child != node::end) child->parent = parent;
-		//if(left != node::end) left->parent = parent;
-		if(child(parent, direction) == x) child(parent, direction) = node::end;
-	}
-/**/
-	template<typename Type>
-	void redblack<Type>::rotate_left(node *x) {
-		node *parent = x->parent;
-		node *grant = parent->parent;
-		node *left = x->left;
-		x->left = parent;
-		x->parent = grant;
-		if(grant != node::end){
-			if(grant->left == parent) grant->left = x; else grant->right = x;
-		} else {
-			root = x;
-		}
-		parent->parent = x;
-		parent->right = left;
-		if(left != node::end) left->parent = parent;
-		if(parent->left == x) parent->left = node::end;
+	template<direction_t direction>
+	typename redblack<Type>::node *& redblack<Type>::child(node *x) {
+		return direction == LEFT ? x->left : x->right;
 	}
 
 	template<typename Type>
-	void redblack<Type>::rotate_right(node *x) {
+	typename redblack<Type>::node *& redblack<Type>::sibling(node *x) {
+		node *parent = x->parent;
+		return x == parent->left ? parent->right : parent->left;
+	}
+
+	template<typename Type>
+	template<direction_t direction>
+	void redblack<Type>::rotate(node *x) {
 		node *parent = x->parent;
 		node *grant = parent->parent;
-		node *right = x->right;
-		x->right = parent;
+		node *son = child<direction>(x);
+		child<direction>(x) = parent;
 		x->parent = grant;
-		if(grant != node::end) {
-			if(grant->right == parent) grant->right = x; else grant->left = x;
+		if(grant != node::end){
+			if(grant->left == parent) {
+				grant->left = x;
+			} else {
+				grant->right = x;
+			}
 		} else {
 			root = x;
 		}
 		parent->parent = x;
-		parent->left = right;
-		if(right != node::end) right->parent = parent;
-		if(parent->right == x) parent->right = node::end;
+		child<static_cast<direction_t>(-direction)>(parent) = son;
+		if(son != node::end) son->parent = parent;
+		if(child<direction>(parent) == x) child<direction>(parent) = node::end;
 	}
 
 	template<typename Type>
@@ -144,8 +119,6 @@ namespace algorists::ds::trees {
 		if(current == node::end) {
 			current = new node(value);
 			current->parent = parent;
-			std::clog << "before fix (" << value << "):" << std::endl;
-			bfs(std::clog);
 			fix(current);
 			return current;
 		}
@@ -154,10 +127,8 @@ namespace algorists::ds::trees {
 
 		if(value < current->data) {
 			insert(value, current->left, current);
-			//fix(current->left);
 		} else {
 			insert(value, current->right, current);
-			//fix(current->right);
 		}
 
 		return node::end;
@@ -172,12 +143,12 @@ namespace algorists::ds::trees {
 
 	template<typename Type>
 	typename redblack<Type>::result_t redblack<Type>::lookup(const Type& value, node *&current) const {
-		if(current == node::end) return {false, &node::end, direction_t::CURRENT};
+		if(current == node::end) return {false, &node::end, CURRENT};
 
-		if(value == current->data) return {true, &current, direction_t::CURRENT};
+		if(value == current->data) return {true, &current, CURRENT};
 
 		direction_t direction = static_cast<direction_t>(1 - 2 * (value < current->data));
-		const auto& [found, where, way] = lookup(value, direction == direction_t::LEFT ? current->left: current->right);
+		const auto& [found, where, way] = lookup(value, direction == LEFT ? current->left: current->right);
 
 		if(where == node::end) return {found, &current, direction};
 

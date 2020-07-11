@@ -13,18 +13,17 @@ template<typename Type>
 std::ostream& operator<<(std::ostream&, const algorists::ds::trees::redblack<Type>&);
 
 namespace algorists::ds::trees {
+	enum direction_t {
+		LEFT = -1,
+		CURRENT = 0,
+		RIGHT = 1
+	};
 	template<typename Type>
 	class redblack {
 	protected:
 		enum class colour_t {
 			BLACK = 0,
 			RED = 1
-		};
-
-		enum class direction_t {
-			LEFT = -1,
-			CURRENT = 0,
-			RIGHT = 1
 		};
 
 		struct node {
@@ -49,9 +48,13 @@ namespace algorists::ds::trees {
 		result_t lookup(const Type&, node *&) const;
 		void traverse(std::ostream&, node *) const;
 		void fix(node *);
-		void rotate(node *, direction_t);
+		template<direction_t direction>
+		void rotate(node *);
 		void rotate_left(node *);
 		void rotate_right(node *);
+		template<direction_t direction>
+		node *& child(node *);
+		node *& sibling(node *);
 	public:
 		redblack();
 		~redblack();
