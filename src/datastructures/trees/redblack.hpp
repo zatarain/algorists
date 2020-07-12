@@ -62,6 +62,7 @@ namespace algorists::ds::trees {
 		bool insert(const Type&);
 		bool remove(const Type&);
 		bool lookup(const Type&) const;
+		long append(const std::initializer_list<Type>&);
 		//Type min() const;
 		//Type max() const;
 		template<typename T>

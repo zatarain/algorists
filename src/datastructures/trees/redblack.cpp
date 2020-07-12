@@ -25,7 +25,7 @@ namespace algorists::ds::trees {
 
 	template<typename Type>
 	redblack<Type>::redblack(const std::initializer_list<Type>& list): root(node::end) {
-		for(const Type value: list) insert(value);
+		append(list);
 	}
 
 	template<typename Type>
@@ -173,6 +173,15 @@ namespace algorists::ds::trees {
 	template<typename Type>
 	bool redblack<Type>::lookup(const Type& value) const {
 		return std::get<0>(lookup(value, root));
+	}
+
+	template<typename Type>
+	long redblack<Type>::append(const std::initializer_list<Type>& list) {
+		long inserted = 0;
+		for(const Type value: list) {
+			inserted += insert(value);
+		}
+		return inserted;
 	}
 
 	template<typename Type>
