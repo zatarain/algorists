@@ -25,7 +25,6 @@ namespace algorists::ds::trees {
 
 	template<typename Type>
 	redblack<Type>::~redblack() {
-		std::clog << "Realeasing red-black tree..." << std::endl;
 		this->release(root);
 	}
 
@@ -47,7 +46,7 @@ namespace algorists::ds::trees {
 		node *grant = parent->parent;
 		node *uncle = parent == grant->left ? grant->right : grant->left;
 		if(uncle->colour == colour_t::RED) {
-			std::clog << "uncle is red: push blackness down from grant parent." << std::endl;
+			//std::clog << "uncle is red: push blackness down from grant parent." << std::endl;
 			grant->colour = colour_t::RED;
 			uncle->colour = colour_t::BLACK;
 			parent->colour = colour_t::BLACK;
@@ -56,20 +55,20 @@ namespace algorists::ds::trees {
 
 		// uncle is black -> check for zigzag
 		if(grant->left == parent && x == parent->right) {
-			std::clog << "zigzag left to right: parent is left-child and x is right-child." << std::endl;
+			//std::clog << "zigzag left to right: parent is left-child and x is right-child." << std::endl;
 			rotate<LEFT>(parent);
 			std::swap(x, parent);
 		} else if(grant->right == parent && x == parent->left) {
-			std::clog << "zigzag right to left: parent is right-child and x is left-child." << std::endl;
+			//std::clog << "zigzag right to left: parent is right-child and x is left-child." << std::endl;
 			rotate<RIGHT>(parent);
 			std::swap(x, parent);
 		}
 
 		if(x == parent->right && grant->right == parent) {
-			std::clog << "straight line right: parent is right-child and x is right-child." << std::endl;
+			//std::clog << "straight line right: parent is right-child and x is right-child." << std::endl;
 			rotate<LEFT>(parent);
 		} else if(x == parent->left && grant->left == parent) {
-			std::clog << "straight line left: parent is left-child and x is left-child." << std::endl;
+			//std::clog << "straight line left: parent is left-child and x is left-child." << std::endl;
 			rotate<RIGHT>(parent);
 		}
 
@@ -157,10 +156,8 @@ namespace algorists::ds::trees {
 
 	template<typename Type>
 	bool redblack<Type>::insert(const Type& value) {
-		std::clog << "Inserting: " << value << std::endl;
 		node* inserted = insert(value, root);
 		root->colour = colour_t::BLACK;
-		bfs(std::clog);
 		return inserted != node::end;
 	}
 
