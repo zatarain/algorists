@@ -57,6 +57,7 @@ namespace algorists::ds::trees {
 		node *& sibling(node *);
 	public:
 		redblack();
+		redblack(const std::initializer_list<Type>&);
 		~redblack();
 		bool insert(const Type&);
 		bool remove(const Type&);

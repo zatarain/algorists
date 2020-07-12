@@ -24,6 +24,11 @@ namespace algorists::ds::trees {
 	redblack<Type>::redblack(): root(node::end) { }
 
 	template<typename Type>
+	redblack<Type>::redblack(const std::initializer_list<Type>& list): root(node::end) {
+		for(const Type value: list) insert(value);
+	}
+
+	template<typename Type>
 	redblack<Type>::~redblack() {
 		this->release(root);
 	}
@@ -76,6 +81,7 @@ namespace algorists::ds::trees {
 			grant->colour = colour_t::RED;
 		}
 		parent->colour = colour_t::BLACK;
+		root->colour = colour_t::BLACK;
 	}
 
 	template<typename Type>
@@ -156,9 +162,7 @@ namespace algorists::ds::trees {
 
 	template<typename Type>
 	bool redblack<Type>::insert(const Type& value) {
-		node* inserted = insert(value, root);
-		root->colour = colour_t::BLACK;
-		return inserted != node::end;
+		return insert(value, root) != node::end;
 	}
 
 	template<typename Type>

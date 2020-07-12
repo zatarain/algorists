@@ -27,14 +27,7 @@ void redblack<Type>::check_output_in_order() {
 	std::clog <<
 		"Inserting a arbitrary order set of numbers to check whether they get properly sorted." <<
 	std::endl;
-	tree rbobject;
-	rbobject.insert(54);
-	rbobject.insert(71);
-	rbobject.insert(34);
-	rbobject.insert(18);
-	rbobject.insert(42);
-	rbobject.insert(73);
-	rbobject.insert(98);
+	tree rbobject{54, 71, 34, 18, 42, 73, 98};
 	std::clog << rbobject << std::endl;
 	rbobject.bfs(std::clog);
 }
@@ -44,42 +37,21 @@ void redblack<Type>::check_breadth_first_search() {
 	std::clog <<
 		"Inserting a arbitrary order set of numbers to check whether the coloring is correct." <<
 	std::endl;
-	tree rbobject;
-	rbobject.insert(54);
-	rbobject.insert(71);
-	rbobject.insert(34);
-	rbobject.insert(18);
-	rbobject.insert(42);
-	rbobject.insert(73);
-	rbobject.insert(98);
+	tree rbobject{54, 71, 34, 18, 42, 73, 98};
 	rbobject.bfs(std::clog);
 
 	std::clog <<
 		"Inserting sorted set of numbers to check whether the tree doesn't " <<
 		"degenerate to a list."	<<
 	std::endl;
-	tree rblist;
-	rblist.insert(18);
-	rblist.insert(34);
-	rblist.insert(42);
-	rblist.insert(54);
-	rblist.insert(71);
-	rblist.insert(73);
-	rblist.insert(98);
+	tree rblist{18, 34, 42, 54, 71, 73, 98};
 	rblist.bfs(std::clog);
 
 	std::clog <<
 		"Inserting reversed order set of numbers to check whether the tree doesn't " <<
 		"degenerate to a list."	<<
 	std::endl;
-	tree reverse;
-	reverse.insert(98);
-	reverse.insert(73);
-	reverse.insert(71);
-	reverse.insert(54);
-	reverse.insert(42);
-	reverse.insert(34);
-	reverse.insert(18);
+	tree reverse{98, 73, 71, 54, 42, 34, 18};
 	reverse.bfs(std::clog);
 }
 
