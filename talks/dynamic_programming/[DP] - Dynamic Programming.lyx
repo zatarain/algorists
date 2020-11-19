@@ -727,7 +727,7 @@ Out of range.
 
 	
 \backslash
-Long $previous=0$, $current=1$
+Long $current=0$, $next=1$
 \backslash
 ;
 \end_layout
@@ -745,21 +745,21 @@ KwTo $N$}{
 
 		
 \backslash
-Long $aux=previous+current$
+Long $aux=current+next$
 \backslash
 ;
 \end_layout
 
 \begin_layout Plain Layout
 
-		$previous=current$
+		$current=next$
 \backslash
 ;
 \end_layout
 
 \begin_layout Plain Layout
 
-		$current=aux$
+		$next=aux$
 \backslash
 ;
 \end_layout
@@ -773,7 +773,7 @@ Long $aux=previous+current$
 
 	
 \backslash
-Return{$previous$}
+Return{$current$}
 \backslash
 ;
 \end_layout

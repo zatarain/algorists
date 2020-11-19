@@ -1,4 +1,4 @@
-%% LyX 2.3.4.4 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.5.2 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[british]{beamer}
 \usepackage[latin9]{inputenc}
@@ -219,13 +219,13 @@ and should return the $N$-th Fibonacci number.
 \Const \Integer $MAX = 90$\;
 \Function{\Long \Integer \fibonacci{\Integer $N$}}{
 	\lIf{$n < 0$ \KwOr $N > MAX$}{\Throw "Out of range."}
-	\Long $previous=0$, $current=1$\;
+	\Long $current=0$, $next=1$\;
 	\For{$k=1$ \KwTo $N$}{
-		\Long $aux=previous+current$\;
-		$previous=current$\;
-		$current=aux$\;
+		\Long $aux=current+next$\;
+		$current=next$\;
+		$next=aux$\;
 	}
-	\Return{$previous$}\;
+	\Return{$current$}\;
 }
 \end{algorithm}
 \end{frame}
