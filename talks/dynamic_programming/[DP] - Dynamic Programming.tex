@@ -133,6 +133,9 @@ coltitle=white,center title}}
 
 \makeatother
 
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listing}
+
 \begin{document}
 \title[Dynamic Programming]{Dynamic Programming}
 \author[Ulises Tirado Zatarain]{Ulises Tirado Zatarain~  \inst{1}\\
@@ -341,13 +344,16 @@ $memo[0]=0$; $memo[1]=1$\;
 \begin{itemize}
 \item \visible<1->{What is the run time complexity in both cases?} \visible<2->{$O(\max(Q,N))$}
 \item \visible<3->{And the memory complexity?} \visible<4->{$O(N)$}
+\item \visible<5->{Generally speaking, DP solutions have a run time complexity
+$O(M\times S)$ and in memory $O(M)$; where $M$ is the number of
+sub-problems problem and $S$ is the complexity of solving each sub-problem.}
 \end{itemize}
 \end{frame}
 
 \section{More problems}
 
 \subsection{Unidimensional problems}
-\begin{frame}{Coin change (brainstorming)}
+\begin{frame}{Coin change (brainstorming/coding)}
 \begin{block}{Coin change (\href{https://leetcode.com/problems/coin-change/}{source: LeetCode})}
 You are given coins of different denominations and a total amount
 of money amount. Write a function to compute the fewest number of
@@ -366,7 +372,7 @@ may assume that you have an infinite number of each kind of coin.
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}{David's staircase (brainstorming)}
+\begin{frame}{David's staircase (brainstorming/coding)}
 \begin{block}{David's staircase (\href{https://www.hackerrank.com/challenges/ctci-recursive-staircase/problem}{source: HackerRank})}
 Davis has a number of staircases in his house and he likes to climb
 each staircase $1,2$ or $3$ steps at a time. Being a very precocious
@@ -383,10 +389,25 @@ steps high. David can step on up to $13$ sequences of steps.
 \end{exampleblock}
 \end{frame}
 
-\begin{frame}{David's staircase (brainstorming)}
-\begin{exampleblock}{David's staircase (\href{https://www.hackerrank.com/challenges/ctci-recursive-staircase/problem}{source: HackerRank})}
-For example, there is $s=1$ staircase in the house that is $n=5$
-steps high. David can step on the following sequences of steps:
+\begin{frame}[fragile]{David's staircase (brainstorming/coding)}
+\begin{exampleblock}{Example ($s=1,n=5$ continuation...)}
+
+\begin{lstlisting}[language={C++},numbers=left,numberstyle={\footnotesize},basicstyle={\footnotesize},tabsize=4]
+1 1 1 1 1
+1 1 1 2
+1 1 2 1 
+1 2 1 1
+2 1 1 1
+1 2 2
+2 2 1
+2 1 2
+1 1 3
+1 3 1
+3 1 1
+2 3
+3 2
+\end{lstlisting}
+
 \end{exampleblock}
 \end{frame}
 

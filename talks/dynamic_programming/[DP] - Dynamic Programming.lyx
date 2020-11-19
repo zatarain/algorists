@@ -1881,6 +1881,49 @@ status open
 
 \end_layout
 
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+visible<5->{
+\end_layout
+
+\end_inset
+
+Generally speaking, DP solutions have a run time complexity 
+\begin_inset Formula $O(M\times S)$
+\end_inset
+
+ and in memory 
+\begin_inset Formula $O(M)$
+\end_inset
+
+; where 
+\begin_inset Formula $M$
+\end_inset
+
+ is the number of sub-problems problem and 
+\begin_inset Formula $S$
+\end_inset
+
+ is the complexity of solving each sub-problem.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_deeper
 \begin_layout Section
 More problems
@@ -1895,7 +1938,7 @@ Unidimensional problems
 status open
 
 \begin_layout Plain Layout
-Coin change (brainstorming)
+Coin change (brainstorming/coding)
 \end_layout
 
 \end_inset
@@ -1986,7 +2029,7 @@ Explanation
 status open
 
 \begin_layout Plain Layout
-David's staircase (brainstorming)
+David's staircase (brainstorming/coding)
 \end_layout
 
 \end_inset
@@ -2075,12 +2118,12 @@ For example, there is
 
 \end_layout
 
-\begin_layout Frame
+\begin_layout FragileFrame
 \begin_inset Argument 4
 status open
 
 \begin_layout Plain Layout
-David's staircase (brainstorming)
+David's staircase (brainstorming/coding)
 \end_layout
 
 \end_inset
@@ -2094,32 +2137,96 @@ David's staircase (brainstorming)
 status open
 
 \begin_layout Plain Layout
-David's staircase (
-\begin_inset CommandInset href
-LatexCommand href
-name "source: HackerRank"
-target "https://www.hackerrank.com/challenges/ctci-recursive-staircase/problem"
-literal "false"
-
+Example (
+\begin_inset Formula $s=1,n=5$
 \end_inset
 
-)
+ continuation...)
 \end_layout
 
 \end_inset
 
-For example, there is 
-\begin_inset Formula $s=1$
-\end_inset
 
- staircase in the house that is 
-\begin_inset Formula $n=5$
-\end_inset
-
- steps high.
- David can step on the following sequences of steps:
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={C++},numbers=left,numberstyle={\footnotesize},basicstyle={\footnotesize},tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+1 1 1 1 1
+\end_layout
+
+\begin_layout Plain Layout
+
+1 1 1 2
+\end_layout
+
+\begin_layout Plain Layout
+
+1 1 2 1 
+\end_layout
+
+\begin_layout Plain Layout
+
+1 2 1 1
+\end_layout
+
+\begin_layout Plain Layout
+
+2 1 1 1
+\end_layout
+
+\begin_layout Plain Layout
+
+1 2 2
+\end_layout
+
+\begin_layout Plain Layout
+
+2 2 1
+\end_layout
+
+\begin_layout Plain Layout
+
+2 1 2
+\end_layout
+
+\begin_layout Plain Layout
+
+1 1 3
+\end_layout
+
+\begin_layout Plain Layout
+
+1 3 1
+\end_layout
+
+\begin_layout Plain Layout
+
+3 1 1
+\end_layout
+
+\begin_layout Plain Layout
+
+2 3
+\end_layout
+
+\begin_layout Plain Layout
+
+3 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator parbreak
