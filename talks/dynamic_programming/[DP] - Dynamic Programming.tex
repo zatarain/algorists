@@ -1,12 +1,9 @@
 %% LyX 2.3.4.4 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[british]{beamer}
-\usepackage{mathptmx}
-\usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \usepackage{babel}
 \usepackage{algorithm2e}
-\usepackage{amstext}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \ifx\hypersetup\undefined
@@ -118,7 +115,8 @@
 \SetKwFunction{improve}{visit-or-improve}
 \SetKwFunction{mycomparator}{cmp}
 
-\SetKwFunction{trie}{trie}
+\SetKwFunction{memset}{std::memset}
+\SetKwFunction{sizeof}{sizeof}
 \SetKwFunction{map}{std::map}
 \SetKwFunction{addword}{add-word}
 \SetKwFunction{findword}{find-word}
@@ -192,23 +190,231 @@ decisions.
 
 
 \subsection{A particular problem}
-\begin{frame}{Recurrence relationship and tree of calls}
+\begin{frame}{Recurrence relationship}
 
-\visible<1->{Fibonacci sequence ($0,1,1,2,3,5,\ldots$) is the simplest
-examples}
-
-\begin{center}
-\visible<2->{$F(n)=\begin{cases}
-1 & n=1\\
-F(n-1)+F(n-2) & n>1\\
-0 & \textrm{otherwise}
-\end{cases}$}
-\par\end{center}
+Fibonacci sequence ($0,1,1,2,3,5,\ldots$) is the simplest examples
 
 \begin{center}
-\visible<3->{\includegraphics[viewport=47.9612bp 86.3415bp 446.039bp 340.569bp,clip,scale=0.5]{figures/fibonacci-tree}}
+$F(n)=\begin{cases}
+n & n\in\{0,1\}\\
+F(n-1)+F(n-2) & n>1
+\end{cases}$
 \par\end{center}
+\begin{example}[Fibonacci numbers]
+Given $Q$ queries compute the $n$-th Fibonacci number for each
+of them. Each query is a single line with a single integer $n$. Your
+task is write a function which receives the integer $n$ as input
+and should return the $n$-th Fibonacci number.
+\end{example}
 
+\end{frame}
+
+
+\subsection{Naive solutions and limitations}
+\begin{frame}{Fibonacci classic iterative implementation}
+
+\begin{algorithm}[H]
+\Const \Integer $MAX = 90$\;
+\Function{\Long \Integer \fibonacci{\Integer $n$}}{
+	\lIf{$n < 0$ \KwOr $n > MAX$}{\Throw "Out of range."}
+	\Long $previous=0$, $current=1$\;
+	\For{$k=1$ \KwTo $n$}{
+		\Long $aux=previous+current$\;
+		$previous=current$\;
+		$current=aux$\;
+	}
+	\Return{$previous$}\;
+}
+\end{algorithm}
+\end{frame}
+
+\begin{frame}{Fibonacci classic recursive implementation}
+
+\begin{algorithm}[H]
+\Const \Integer $MAX = 90$\;
+\Function{\Long \Integer \fibonacci{\Integer $n$}}{
+	\lIf{$n < 0$ \KwOr $n > MAX$}{\Throw "Out of range."}
+	\lIf{$n < 2$}{\Return{$n$}}
+	\Return{\fibonacci{$n-1$} $+$ \fibonacci{$n-2$}}\;
+}
+\end{algorithm}
+\end{frame}
+
+\begin{frame}{Problems with the classic implementations}
+
+\begin{itemize}
+\item \visible<1->{In the iterative implementation we compute all the values
+for every query.}
+\item \visible<2->{In the recursive one, some values are computed twice
+(or more times), in particular for $F(4)$:
+\end{itemize}
+\begin{center}
+\includegraphics[viewport=47.9612bp 81.5447bp 479.612bp 340.569bp,clip,scale=0.5]{figures/fibonacci-tree-redundance}}
+\par\end{center}
+\begin{itemize}
+\item \visible<3->{This is called \textbf{overlapping}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Complexity?}
+\begin{itemize}
+\item \visible<1->{What is run time complexity for the iterative function?
+} \visible<2->{$O(N)$}
+\item \visible<3->{What is run time complexity for the recursive one? } \visible<4->{$O(2^{N})$}
+\item \visible<5->{What is the run time complexity for the whole program?}
+\begin{itemize}
+\item \visible<6->{Iterative: $O(QN)$}
+\item \visible<7->{Recursive: $O(2^{N}Q)$}
+\end{itemize}
+\item \visible<8->{What about the memory?} \visible<9->{$O(1)$}
+\end{itemize}
+\end{frame}
+
+
+\section{Algorithm design}
+
+\subsection{Design}
+\begin{frame}{Design and implementations}
+
+There are two ways to implement dynamic programming:
+\begin{itemize}
+\item Bottom-up (iterative implementation)
+\begin{itemize}
+\item Solve \textbf{all the the possible smaller problems} before the bigger
+one
+\end{itemize}
+\item Top-down (recursive implementation)
+\begin{itemize}
+\item Solve \textbf{only the instances which are actually needed} for a
+given problem
+\end{itemize}
+\item Both solve the problem in efficient way, the discussion may end up
+in \emph{religious} arguments.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fibonacci bottom-up implementation}
+Solve all the the possible smaller problems before the bigger one:
+\begin{algorithm}[H]
+\Const \Integer $MAX = 90$\;
+\Const \Long \Integer $UNDEFINED = -1$\;
+\Long \Integer $memo[MAX + 1]$\;
+\memset{$memo$, $UNDEFINED$, \sizeof{$memo$}}\;
+$memo[0]=0$; $memo[1]=1$\;
+\Function{\Long \Integer \fibonacci{\Integer $n$}}{
+	\lIf{$n < 0$ \KwOr $n > MAX$}{\Throw "Out of range."}
+	\If{$memo[n]==UNDEFINED$}{
+		\For{$k=2$ \KwTo $n$}{
+			$memo[k]=memo[k-1]+memo[k-2]$\;
+		}
+	}
+	\Return{$memo[n]$}\;
+}
+\end{algorithm}
+\end{frame}
+
+\begin{frame}{Fibonacci top-down implementation}
+
+Solve only the instances which are actually needed for a given problem:
+
+\begin{algorithm}[H]
+\Const \Integer $MAX = 90$\;
+\Const \Long \Integer $UNDEFINED = -1$\;
+\Long \Integer $memo[MAX + 1]$\;
+\memset{$memo$, $UNDEFINED$, \sizeof{$memo$}}\;
+$memo[0]=0$; $memo[1]=1$\;
+\Function{\Long \Integer \fibonacci{\Integer $n$}}{
+	\lIf{$n < 0$ \KwOr $n > MAX$}{\Throw "Out of range."}
+	\lIf{$memo[n] \neq UNDEFINED$}{\Return{$memo[n]$}}
+	$memo[n]=$ \fibonacci{$n-1$} $+$ \fibonacci{$n-2$}\;
+	\Return{$memo[n]$}\;
+}
+\end{algorithm}
+\end{frame}
+
+
+\subsection{Analysis}
+\begin{frame}{Complexity analysis}
+\begin{itemize}
+\item Time
+\item Memory
+\end{itemize}
+\end{frame}
+
+\section{More problems}
+
+\subsection{Unidimensional problems}
+\begin{frame}{Coin change (brainstorming)}
+\begin{block}{Coin change (\href{https://leetcode.com/problems/coin-change/}{source: LeetCode})}
+You are given coins of different denominations and a total amount
+of money amount. Write a function to compute the fewest number of
+coins that you need to make up that amount. If that amount of money
+cannot be made up by any combination of the coins, return -1. You
+may assume that you have an infinite number of each kind of coin.
+
+\end{block}
+\begin{exampleblock}{Example}
+
+\textbf{Input}: coins = {[}1,2,5{]}, amount = 11
+
+\textbf{Output}: 3
+
+\textbf{Explanation}: 11 = 5 + 5 + 1
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{David's staircase (brainstorming)}
+\begin{block}{David's staircase (\href{https://www.hackerrank.com/challenges/ctci-recursive-staircase/problem}{source: HackerRank})}
+Davis has a number of staircases in his house and he likes to climb
+each staircase $1,2$ or $3$ steps at a time. Being a very precocious
+child, he wonders how many ways there are to reach the top of the
+staircase.
+
+Given the respective heights for each of the $s$ staircases in his
+house, find and print the number of ways he can climb each staircase,
+module $10^{10}+7$ on a new line.
+
+For example, there is $s=1$ staircase in the house that is $n=5$
+steps high. Davis can step on the following sequences of steps:
+\end{block}
+\end{frame}
+
+
+\subsection{Multidimensional problems}
+\begin{frame}{Multidimensional (homework challenge)}
+\begin{block}{Knight on the chess board (\href{https://leetcode.com/problems/knight-probability-in-chessboard/}{source: LeetCode})}
+
+On an $N\times N$ chessboard, a knight starts at the $r$-th row
+and $c$-th column and attempts to make exactly $K$ moves. The rows
+and columns are $0$ indexed, so the top-left square is $(0,0)$,
+and the bottom-right square is $(N-1,N-1)$.
+
+A chess knight has $8$ possible moves it can make, as illustrated
+below. Each move is two squares in a cardinal direction, then one
+square in an orthogonal direction.
+\end{block}
+\begin{exampleblock}{Example}
+
+\textbf{Input}: 3, 2, 0, 0 
+
+\textbf{Output}: 0.0625
+\end{exampleblock}
+\end{frame}
+
+
+\subsection{More classic problems}
+\begin{frame}{More classic problems}
+
+We can find many applications of dynamic programming in several knowledge
+areas (even if they are not necessary related with technology a priori):
+militia, robotics, image processing, etc.
+\begin{itemize}
+\item Longest Common Subsequence
+\item Edit distance
+\item Knapsack
+\item Floyd-Warshall
+\item Single-source Shortest Path
+\end{itemize}
 \end{frame}
 
 
