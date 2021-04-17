@@ -3,6 +3,7 @@ author: Ulises Tirado Zatarain
 title: Algorists Template for Talks
 date: Nov, 2020
 ---
+
 # Formulas and equations
 > - Example of math using an underscore and mathcal: $a_i \in \mathcal{A}$
 > - Example of math using an arrow and mathbb: $\overrightarrow{\beta} \notin \mathbb{B}$
@@ -18,6 +19,7 @@ $$
 $$
 
 ---
+
 # Code in C++
 Let see what the code looks like:
 ```cpp
@@ -29,6 +31,14 @@ for (auto& x: S) {
 ```
 
 ---
+
+# Including source code files
+You can also include a cpp file:
+
+\cplusplus{example}
+
+---
+
 # Algorithm Example (\LaTeX/`algorithm2e`)
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -44,6 +54,7 @@ for (auto& x: S) {
 \end{algorithm}
 
 ---
+
 # Algorithm Example (`pseudocode`)
 ```algorithm
 map of <string, integer> dictionary;

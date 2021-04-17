@@ -1,4 +1,5 @@
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{adjustbox}
 \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 \usetheme[oldstylearrows,nologo,numbers,algorists]{CIMAT}
 
@@ -103,4 +104,19 @@
     morecomment=[s]{/*}{*/},
     morestring=[b]",
 	morestring=[b]',
+}
+
+\newlength\codeheight
+\setlength\codeheight{1cm}
+
+\newcommand{\cplusplus}[2][3cm]{
+	\begin{adjustbox}{width=\textwidth,height=#1,keepaspectratio}
+  		\lstinputlisting[language=C++]{#2.cpp}
+	\end{adjustbox}
+}
+
+\newcommand{\java}[2][3cm]{
+	\begin{adjustbox}{width=\textwidth,height=#1,keepaspectratio}
+  		\lstinputlisting[language=Java]{#2.java}
+	\end{adjustbox}
 }
